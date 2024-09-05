@@ -23,17 +23,6 @@ def script_description():
 # If modifying these scopes, delete the file token.json.
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
 
-get_creds_token()
-#provide the current drafts using unique values returned by update_draft_data
-row_one_single = ["Title        ", "Draft ID", "Preset ID", "Ongoing", "Host", "Guest"]
-unformated_draft = update_draft_data()
-cur_draft = format_table(unformated_draft, row_one_single) #string formatted from nested list
-#cur_draft = format_table(filter_table(unique_values, search_filter), row_one_single)
-
-#press button to update row_listings with search_filter
-#can I look through "Settings" and get the value of filter_text as needed?
-
-
 #Go through Google Sheets and Google Cloud authorization process.
 def get_creds_token():
   """Shows basic usage of the Sheets API.
@@ -43,19 +32,19 @@ def get_creds_token():
   # The file token.json stores the user's access and refresh tokens, and is
   # created automatically when the authorization flow completes for the first
   # time.
-  if os.path.exists("Your/Path/token.json"):
-    creds = Credentials.from_authorized_user_file("Your/Path/token.json", SCOPES)
+  if os.path.exists("C:/Users/colin/Documents/ColinAoC/Twitch/token.json"):
+    creds = Credentials.from_authorized_user_file("C:/Users/colin/Documents/ColinAoC/Twitch/token.json", SCOPES)
   # If there are no (valid) credentials available, let the user log in.
   if not creds or not creds.valid:
     if creds and creds.expired and creds.refresh_token:
       creds.refresh(Request())
     else:
       flow = InstalledAppFlow.from_client_secrets_file(
-          "Your/Path/Oauth_API_MapCiv_Draft.json", SCOPES
+          "C:/Users/colin/Documents/ColinAoC/Twitch/Oauth_API_MapCiv_Draft.json", SCOPES
       )
       creds = flow.run_local_server(port=0)
     # Save the credentials for the next run
-    with open("Your/Path/token.json", "w") as token:
+    with open("C:/Users/colin/Documents/ColinAoC/Twitch/token.json", "w") as token:
       token.write(creds.to_json())
 
   try:
@@ -65,11 +54,14 @@ def get_creds_token():
   except HttpError as err:
     print(err)
 
+get_creds_token()
+
+
 #Pull data from Captains Mode Spectate page and save it into a google sheets. Return the unique values.
 def update_draft_data():
   gc = gspread.oauth(
-    credentials_filename='Your/Path/Oauth_API_MapCiv_Draft.json', 
-    authorized_user_filename='Your/Path/token.json'
+    credentials_filename='C:/Users/colin/Documents/ColinAoC/Twitch/Oauth_API_MapCiv_Draft.json', 
+    authorized_user_filename='C:/Users/colin/Documents/ColinAoC/Twitch/token.json'
   )
 
   ### Pull list of last 30 drafts ###
@@ -203,6 +195,11 @@ def format_table(nested_list, column_names):
     formatted_string += nice_horizontal_rule
 
     return formatted_string
+
+#provide the current drafts using unique values returned by update_draft_data
+row_one_single = ["Title        ", "Draft ID", "Preset ID", "Ongoing", "Host", "Guest"]
+unformated_draft = update_draft_data()
+cur_draft = format_table(unformated_draft, row_one_single) #string formatted from nested list
 
 #Refreshes draft based on filter_text input
 #not currently used
