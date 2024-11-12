@@ -1,5 +1,7 @@
 Running on Python 3.12.5
 
+Requires installation of gspread `pip install gspread`
+
 Captains Mode is a draft system for the Age of Empires series created by the group @SiegeEngineers found at https://aoe2cm.net/
 It allows players to draft either maps or civilizations to play from in a tournament setting. An API page is provided with an Endpoint that allows the last 30 drafts to be retreived: GET https://aoe2cm.net/api/recentdrafts
 The google spreadsheet python authorization requires signing up for a google cloud account, creating a project, and setting up the proper authorization. More information is available here: https://github.com/burnash/gspread/blob/master/docs/oauth2.rst
